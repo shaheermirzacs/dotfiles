@@ -1,0 +1,44 @@
+" Syntax highlighting
+syntax on
+
+" Trailing Whitespace Handling
+hi ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+" Fix Trailing Whitespace with F4
+nmap <F4> :%s/\s\+$//e \| %s/\r$//e <CR>
+
+" spacing & tabs
+"" Tabs to 4 spaces
+set tabstop=4 shiftwidth=4 softtabstop=4 smarttab expandtab
+"" Indentation
+"set autoindent
+set smartindent
+
+" Line Numbers
+set number
+" File Type Based Indentation
+filetype indent on
+
+" Function matching (eg {})
+set showmatch
+
+" Misc
+set wildmenu
+set mouse=a
+
+" searching
+set incsearch
+set hlsearch
+
+" Background Theme
+set background=dark
+
+" Status Line
+set laststatus=2
+"" File name
+set statusline+=%F%m
+"" Statusline color
+hi StatusLine ctermbg=0 cterm=NONE
+
+au BufReadCmd *.whl call zip#Browse(expand("<amatch>"))
+

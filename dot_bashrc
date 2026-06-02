@@ -1,0 +1,136 @@
+#!/usr/bin/env bash
+
+# Source everywhere
+
+export PATH="/opt/homebrew/bin:$PATH"
+HOMEBREW_PREFIX="$(brew --prefix)"
+[[ -r "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" ]] && . "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
+export CLICOLOR=1
+
+# =============================================================================
+# 1. Shell options & history
+# =============================================================================
+
+HISTSIZE=-1
+HISTFILESIZE=-1
+
+shopt -s histappend
+shopt -s direxpand
+shopt -s globstar
+
+# For .inputrc CTRL+w to stop at hyphens
+stty werase undef
+bind '"\C-w": backward-kill-word'
+
+# =============================================================================
+# 2. Environment variables & PATH
+# =============================================================================
+
+export VISUAL=vim
+export EDITOR="$VISUAL"
+
+export DOCKER_BUILDKIT=1
+
+[ -d "$HOME"/bin ] && export PATH="$HOME/bin:$PATH"
+[ -d "$HOME"/.local/bin ] && export PATH="$HOME/.local/bin:$PATH"
+[ -d "$HOME"/.cargo/bin ] && export PATH="$HOME/.cargo/bin:$PATH"
+[ -d "$HOME"/go/bin ] && export PATH="$HOME/go/bin:$PATH"
+
+# =============================================================================
+# 3. Functions
+# =============================================================================
+
+# cd && ls same time
+cd() { builtin cd "$@" && ls; }
+
+# Append and commit history after every command (helps with multiple TMUX panes)
+function blastoff() {
+    # Change terminal title to current hostname (works on SSH)
+    # printf '\033]0;%s\007' "${HOSTNAME%%.*}"
+
+    history -a
+    history -n
+}
+
+# =============================================================================
+# 5. FZF configuration
+# =============================================================================
+# fzf key bindings and fuzzy completion
+eval "$(fzf --bash)"
+export FZF_COMPLETION_TRIGGER=',,'
+export FZF_COMPLETION_PATH_OPTS='--walker file,dir,follow,hidden'
+export FZF_COMPLETION_DIR_OPTS='--walker dir,follow'
+export FZF_COMPLETION_OPTS="--border --style minimal"
+
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd|ls)        fzf --preview 'tree -C {} | head -200'   "$@" ;;
+    export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
+    ssh)          fzf --preview 'dig {}'                   "$@" ;;
+    *)            fzf --preview 'batcat -n --color=always {}' --bind 'focus:transform-header:file --brief {}' --border "$@" ;;
+  esac
+}
+
+# Use fd (https://github.com/sharkdp/fd) for listing path candidates.
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
+
+# =============================================================================
+# 6. Tool initialization (starship, zoxide, uv, task)
+# =============================================================================
+
+# Starship prompt https://starship.rs/
+starship_precmd_user_func="blastoff"
+eval "$(starship init bash)"
+
+# Zoxide init
+eval "$(zoxide init bash)"
+# Override zoxide cd to also ls
+function __zoxide_cd() {
+    # shellcheck disable=SC2164
+    builtin cd "$@"
+    RET=$?
+    ls
+    return $RET
+}
+# function __zoxide_z_complete() {
+#     # Only show completions when the cursor is at the end of the line.
+#     [[ ${#COMP_WORDS[@]} -eq $((COMP_CWORD + 1)) ]] || return
+#     # If there is only one argument, use `cd` completions.
+#     if [[ ${#COMP_WORDS[@]} -eq 2 ]]; then
+#         \builtin mapfile -t COMPREPLY < <(
+#             \builtin compgen -A directory -- "${COMP_WORDS[-1]}" || \builtin true
+#         )
+#     fi
+#     # If there is a space after the last word, use interactive selection.
+#     if [[ ${#COMPREPLY[@]} -eq 0 ]]; then
+#         if [[ ${COMP_WORDS[-2]} != "${__zoxide_z_prefix}"?* ]]; then
+#             \builtin local result query
+#             if [[ ${#COMP_WORDS[@]} -eq 2 ]]; then
+#                 query="${COMP_WORDS[-1]}"
+#             else
+#                 query="${COMP_WORDS[@]:1:${#COMP_WORDS[@]}-2}"
+#             fi
+#             # shellcheck disable=SC2312
+#             result="$(\command zoxide query --exclude "$(__zoxide_pwd)" --interactive -- "${query}")" &&
+#                 COMPREPLY=("${__zoxide_z_prefix}${result}/")
+#             \builtin printf '\e[5n'
+#         fi
+#     fi
+# }
+
+# =============================================================================
+# 7. Completions & local extensions
+# =============================================================================
+
+source <(COMPLETE=bash jj)
+

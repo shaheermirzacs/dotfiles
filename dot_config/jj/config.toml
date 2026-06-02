@@ -1,0 +1,8 @@
+#:schema https://docs.jj-vcs.dev/latest/config-schema.json
+
+[user]
+name = "Shaheer Mirza"
+email = "dev@shaheermirza.dev"
+
+[git]
+write-change-id-header = true

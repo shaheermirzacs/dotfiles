@@ -1,0 +1,96 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "semantic_tokens": "off",
+  "code_lens": "off",
+  "languages": {
+    "Markdown": {
+      "inlay_hints": {
+        "enabled": false,
+      },
+      "completions": {
+        "words": "enabled",
+      },
+      "indent_guides": {
+        "background_coloring": "disabled",
+        "coloring": "fixed",
+      },
+    },
+  },
+  "format_on_save": "on",
+  "cli_default_open_behavior": "new_window",
+  "prettier": {
+    "allowed": true,
+  },
+  "agent_servers": {
+    "codex-acp": {
+      "type": "registry",
+    },
+    "gemini": {
+      "type": "registry",
+    },
+    "claude-acp": {
+      "type": "registry",
+    },
+  },
+  "project_panel": {
+    "dock": "right",
+  },
+  "outline_panel": {
+    "dock": "right",
+  },
+  "collaboration_panel": {
+    "dock": "right",
+  },
+  "agent": {
+    "dock": "left",
+    "favorite_models": [],
+    "model_parameters": [],
+  },
+  "git_panel": {
+    "dock": "right",
+  },
+  "show_edit_predictions": true,
+  "session": {
+    "trust_all_worktrees": true,
+  },
+  "terminal": {
+    "font_size": 16.0,
+    "font_family": "monospace",
+  },
+  "git": {
+    "inline_blame": {
+      "enabled": true,
+    },
+  },
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 1000,
+    },
+  },
+  "buffer_font_fallbacks": ["Courier New", "monospace"],
+  "buffer_font_family": "Victor Mono Light",
+  "auto_indent_on_paste": true,
+  "show_whitespaces": "none",
+  "soft_wrap": "editor_width",
+  "hard_tabs": false,
+  "base_keymap": "VSCode",
+  "icon_theme": {
+    "mode": "system",
+    "light": "Zed (Default)",
+    "dark": "Zed (Default)",
+  },
+  "ui_font_size": 12.0,
+  "buffer_font_size": 10.0,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "One Dark",
+  },
+}

@@ -1,0 +1,56 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = '$username$hostname$directory$git_branch$git_status${custom.jj}$line_break$character'
+
+add_newline = false
+
+[username]
+disabled    = false
+format      = '[$user]($style) '
+show_always = true
+style_root  = 'black bold'
+style_user  = 'cyan'
+
+[direnv]
+disabled = false
+
+[git_status]
+#conflicted = ""
+#deleted    = ""
+#format     = " [$modified $untracked]($style)"
+#modified   = "*"
+#renamed    = ""
+#staged     = ""
+#stashed    = ""
+#style      = "red"
+#untracked  = "+"
+
+[custom.jj]
+command = "prompt"
+format = "$output"
+ignore_timeout = true
+shell = ["starship-jj", "--ignore-working-copy", "starship"]
+use_stdin = false
+when = true
+
+[directory]
+read_only         = " 󰌾"
+style             = 'yellow'
+truncate_to_repo  = false
+truncation_length = 8
+truncation_symbol = '…/'
+
+[git_branch]
+format = '[$symbol$branch(:$remote_branch)]($style) '
+
+
+[hostname]
+format     = '[$ssh_symbol$hostname]($style) '
+ssh_only   = true
+style      = 'red'
+
+[python]
+# Only use the `python3` binary to get the version.
+format        = '[(\($virtualenv\) )]($style)'
+python_binary = 'python3'
+symbol        = "  "
