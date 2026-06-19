@@ -1,0 +1,4 @@
+command = /opt/homebrew/bin/bash
+font-family = Victor Mono
+shell-integration-features = ssh-terminfo,ssh-env
+split-divider-color = FFFFFF
