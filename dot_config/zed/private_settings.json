@@ -40,6 +40,7 @@
     },
   },
   "project_panel": {
+    "sort_mode": "mixed",
     "dock": "right",
   },
   "outline_panel": {
@@ -75,7 +76,7 @@
     },
   },
   "buffer_font_fallbacks": ["Courier New", "monospace"],
-  "buffer_font_family": "Victor Mono Light",
+  "buffer_font_family": "Victor Mono",
   "auto_indent_on_paste": true,
   "show_whitespaces": "none",
   "soft_wrap": "editor_width",
