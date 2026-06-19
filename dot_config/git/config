@@ -1,0 +1,47 @@
+[user]
+	email = dev@shaheermirza.sh
+	name = Shaheer Mirza
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJdibR1iYlEnyr6SgpFy1fWTrTj5eo8CT0WcVHuUilql
+[diff]
+	colorMoved = plain
+	algorithm = histogram
+	mnemonicPrefix = true
+	renames = true
+[credential]
+	helper = cache --timeout=604800
+[remote "origin"]
+	tagopt = --tags
+	prune = true
+	pruneTags = true
+[push]
+	autoSetupRemote = true
+[branch]
+	sort = -committerdate
+[merge]
+	conflictStyle = zdiff3
+[column]
+	ui = auto
+[tag]
+	sort = version:refname
+[help]
+	autocorrect = prompt
+[rerere]
+	enabled = true
+	autoupdate = true
+[rebase]
+	updateRefs = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[feature]
+	manyFiles = 1
+[init]
+	defaultBranch = main
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[commit]
+	gpgsign = true
