@@ -13,6 +13,7 @@ export CLICOLOR=1
 
 HISTSIZE=-1
 HISTFILESIZE=-1
+HISTCONTROL=ignoreboth
 
 shopt -s histappend
 shopt -s direxpand
