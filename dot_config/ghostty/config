@@ -2,4 +2,4 @@ command = /opt/homebrew/bin/bash
 font-family = Victor Mono Medium
 shell-integration-features = ssh-terminfo,ssh-env
 split-divider-color = FFFFFF
-config-file = ?auto/theme.ghostty
+font-size = 20
