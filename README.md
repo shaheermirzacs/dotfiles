@@ -7,13 +7,13 @@ Managed with [chezmoi](https://www.chezmoi.io/).
 Install chezmoi and apply the dotfiles in one step:
 
 ```bash
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@knot.shaheermirza.sh:shaheermirza.sh/dotfiles
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@gitlab.com:shaheermirza/dotfiles.git
 ```
 
 If chezmoi is already installed:
 
 ```bash
-chezmoi init --apply git@knot.shaheermirza.sh:shaheermirza.sh/dotfiles
+chezmoi init --apply git@gitlab.com:shaheermirza/dotfiles.git
 ```
 
 On macOS, packages are installed automatically from the `Brewfile` via the
