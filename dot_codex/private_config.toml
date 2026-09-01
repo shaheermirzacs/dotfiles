@@ -1,3 +1,4 @@
+approvals_reviewer = "auto_review"
 [marketplaces.ponytail]
 source_type = "git"
 source = "https://github.com/DietrichGebert/ponytail.git"
