@@ -2,7 +2,11 @@
 
 # Source everywhere
 
-export PATH="/opt/homebrew/bin:$PATH"
+if [[ "$OSTYPE" == linux* ]]; then
+    export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+else
+    export PATH="/opt/homebrew/bin:$PATH"
+fi
 HOMEBREW_PREFIX="$(brew --prefix)"
 [[ -r "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" ]] && . "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
 export CLICOLOR=1
@@ -134,4 +138,3 @@ function __zoxide_cd() {
 # =============================================================================
 
 source <(COMPLETE=bash jj)
-
