@@ -26,6 +26,8 @@ brew "go"
 brew "jj"
 # Handy way to save and run project-specific commands
 brew "just"
+# Open-source, cross-platform JavaScript runtime environment
+brew "node"
 # Swiss-army knife of markup format conversion
 brew "pandoc"
 # PDF rendering library (based on the xpdf-3.0 code base)
