@@ -49,7 +49,7 @@ brew "uv"
 # Shell extension to navigate your filesystem faster
 brew "zoxide"
 # Command-line interface for 1Password
-cask "1password-cli"
+cask "1password-cli" if OS.mac?
 # OpenAI's coding agent that runs in your terminal
-cask "codex"
-cask "font-victor-mono"
+cask "codex" if OS.mac?
+cask "font-victor-mono" if OS.mac?

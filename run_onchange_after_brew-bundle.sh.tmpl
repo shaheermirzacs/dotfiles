@@ -1,0 +1,19 @@
+#!/bin/sh
+set -eu
+
+# Brewfile hash: {{ include "Brewfile" | sha256sum }}
+
+if command -v brew >/dev/null 2>&1; then
+    brew=$(command -v brew)
+elif [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+    brew=/home/linuxbrew/.linuxbrew/bin/brew
+elif [ -x /opt/homebrew/bin/brew ]; then
+    brew=/opt/homebrew/bin/brew
+elif [ -x /usr/local/bin/brew ]; then
+    brew=/usr/local/bin/brew
+else
+    echo "Homebrew is not installed" >&2
+    exit 1
+fi
+
+"$brew" bundle --file="$HOME/Brewfile"
