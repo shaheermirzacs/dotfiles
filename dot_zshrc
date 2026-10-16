@@ -1,0 +1,105 @@
+# Environment & PATH
+typeset -U path
+[[ -d /opt/homebrew/bin ]] && path=(/opt/homebrew/bin $path)
+[[ -d "$HOME/bin" ]] && path=("$HOME/bin" $path)
+[[ -d "$HOME/.local/bin" ]] && path=("$HOME/.local/bin" $path)
+[[ -d "$HOME/.cargo/bin" ]] && path=("$HOME/.cargo/bin" $path)
+[[ -d "$HOME/go/bin" ]] && path=("$HOME/go/bin" $path)
+export CLICOLOR=1
+export VISUAL=vim
+export EDITOR="$VISUAL"
+export DOCKER_BUILDKIT=1
+
+bindkey -e
+
+# Keep Zsh history separate from Bash's history format.
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=1000000
+SAVEHIST=1000000
+setopt APPEND_HISTORY SHARE_HISTORY HIST_IGNORE_DUPS HIST_IGNORE_SPACE
+
+# Ctrl-W stops at hyphens, including when EDITOR=vim selects vi bindings.
+#[[ -t 0 ]] && stty werase undef
+#WORDCHARS=${WORDCHARS//-/}
+#bindkey '^W' backward-kill-word
+
+cd() { builtin cd "$@" && ls; }
+
+# Completions
+autoload -Uz compinit
+compinit
+if (( $+commands[jj] )); then
+    source <(jj util completion zsh)
+fi
+if (( $+commands[rex] )); then
+    source <(rex completion zsh)
+fi
+if (( $+commands[uv] )); then
+    source <(uv generate-shell-completion zsh)
+fi
+if (( $+commands[codex] )); then
+    source <(codex completion zsh)
+fi
+
+# Fuzzy completion & key bindings
+export FZF_COMPLETION_TRIGGER=',,'
+export FZF_COMPLETION_PATH_OPTS='--walker file,dir,follow,hidden'
+export FZF_COMPLETION_DIR_OPTS='--walker dir,follow'
+export FZF_COMPLETION_OPTS='--border --style minimal'
+if (( $+commands[fzf] )); then
+    source <(fzf --zsh)
+fi
+
+# Load after fzf so fzf-tab owns the Tab binding.
+if [[ -r /opt/homebrew/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh ]]; then
+    source /opt/homebrew/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh
+fi
+
+# Search history by the typed prefix with either terminal arrow-key sequence.
+bindkey '^[[A' history-beginning-search-backward
+bindkey '^[[B' history-beginning-search-forward
+bindkey '^[OA' history-beginning-search-backward
+bindkey '^[OB' history-beginning-search-forward
+
+_fzf_comprun() {
+    local command=$1
+    shift
+    case "$command" in
+        cd|ls)        fzf --preview 'tree -C {} | head -200' "$@" ;;
+        export|unset) fzf --preview "eval 'echo \$'{}" "$@" ;;
+        ssh)          fzf --preview 'dig {}' "$@" ;;
+        *)            fzf --preview 'bat -n --color=always {}' --bind 'focus:transform-header:file --brief {}' --border "$@" ;;
+    esac
+}
+
+_fzf_compgen_path() {
+    fd --hidden --follow --exclude '.git' . "$1"
+}
+
+_fzf_compgen_dir() {
+    fd --type d --hidden --follow --exclude '.git' . "$1"
+}
+
+# Prompt & directory navigation
+if (( $+commands[starship] )); then
+    eval "$(starship init zsh)"
+fi
+if (( $+commands[zoxide] )); then
+    eval "$(zoxide init zsh)"
+    # Match cd's listing behavior without listing after a failed jump.
+    __zoxide_cd() { builtin cd -- "$@" && ls; }
+fi
+
+#zstyle ':completion:*' menu no
+#
+## Use your existing LS_COLORS for the completion menu background/foreground
+#zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+#
+## Group completion results by category (e.g., files, directories, flags)
+#zstyle ':completion:*' group-name ''
+#zstyle ':completion:*:descriptions' format '[%d]'
+#
+## Enable case-insensitive and partial-word matching
+## (e.g., typing 'doc' matches 'Documents' or 'docker')
+#zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+
