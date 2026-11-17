@@ -1,0 +1,146 @@
+%YAML 1.2
+---
+name: YANG
+file_extensions:
+  - yang
+scope: source.yang
+
+contexts:
+  main:
+    - match: '(leaf) ([A-Za-z0-9\-_]+)'
+      scope: statement.leaf.yang
+      captures:
+        1: storage.type
+        2: variable.parameter
+
+    - match: '(leaf-list) ([A-Za-z0-9\-_]+)'
+      scope: statement.leaf-list.yang
+      captures:
+        1: storage.type
+        2: variable.parameter
+
+    - match: '(list) ([A-Za-z0-9\-]+)'
+      scope: statement.list.yang
+      captures:
+        1: storage.type
+        2: variable.parameter
+
+    - match: '(key) ([A-Za-z0-9\-]+)'
+      scope: statement.key.yang
+      captures:
+        1: constant.language
+        2: constant.character
+
+    - match: '(choice) ([A-Za-z0-9\-_]+)'
+      scope: statement.choice.yang
+      captures:
+        1: storage.type
+        2: variable.parameter
+
+    - match: '(container) ([A-Za-z0-9\-_]+)'
+      scope: statement.container.yang
+      captures:
+        1: storage.type
+        2: variable.parameter
+
+    - match: '(grouping) ([A-Za-z0-9\-_]+)'
+      scope: statement.grouping.yang
+      captures:
+        1: constant.language
+        2: entity.name.type.class
+
+    - match: '(uses) ([A-Za-z0-9\-_:]+)'
+      scope: statement.uses.yang
+      captures:
+        1: constant.language
+        2: entity.name.type.class
+
+    - match: '(type) +([a-zA-Z0-9;:\-_]+)'
+      scope: statement.type.yang
+      captures:
+        1: constant.language
+        2: constant.character
+
+    - match: '(enum) +([\"a-zA-Z0-9\-_: ]+)'
+      scope: statement.type.enum.yang
+      captures:
+        1: constant.character
+        2: string.quoted.double
+
+    - match: '(//.*$)'
+      scope: comment.yang
+      captures:
+        1: comment
+
+    - match: '(module) +([a-zA-Z0-9;:\-_]+)'
+      scope: module.yang
+      captures:
+        1: string.regexp
+        2: entity.name.type.class
+
+    - match: '(import) +([a-zA-Z0-9;:\-_]+)'
+      scope: import.yang
+      captures:
+        1: string.regexp
+        2: entity.name.type.class
+
+    - match: '(prefix) ([A-Za-z0-9\-_]+)'
+      scope: import.prefix.yang
+      captures:
+        1: constant.language
+        2: entity.name.type.class
+
+    - match: '(revision) +([a-zA-Z0-9;:\-_]+)'
+      scope: revision.yang
+      captures:
+        1: string.regexp
+        2: entity.name.type.class
+
+    - match: '(namespace)'
+      scope: namespace.yang
+      captures:
+        1: constant.language
+
+    - match: '(organization)'
+      scope: organization.yang
+      captures:
+        1: constant.language
+
+    - match: '(contact)'
+      scope: contact.yang
+      captures:
+        1: constant.language
+
+    - match: '(description)'
+      scope: description.yang
+      captures:
+        1: constant.language
+
+    - match: '(typedef) ([A-Za-z0-9\-_]+)'
+      scope: statement.typedef.yang
+      captures:
+        1: constant.language
+        2: constant.character
+
+    - match: '(pattern)'
+      scope: statement.pattern.yang
+      captures:
+        1: storage.type
+
+    - match: '(augment) ([\":/A-Za-z0-9\-_]+)'
+      scope: statement.augment.yang
+      captures:
+        1: constant.language
+        2: entity.name.type.class
+
+    - match: '[\"'']'
+      scope: punctuation.definition.string.begin
+      push: quoted_string
+
+  quoted_string:
+    - meta_scope: string.quoted.yang
+    - match: '[\"''];'
+      scope: punctuation.definition.string.end
+      pop: true
+    - match: '.'
+      scope: string.quoted.double

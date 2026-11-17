@@ -1,5 +1,33 @@
 command = /opt/homebrew/bin/bash
-font-family = Victor Mono Medium
 shell-integration-features = ssh-terminfo,ssh-env
 split-divider-color = FFFFFF
+bell-features = system
+
+keybind = global:option+space=toggle_quick_terminal
+
+# Normal Ghostty shortcuts. Performable keeps macOS menu shortcuts from
+# taking precedence over the Herdr key table.
+keybind = performable:super+d=new_split:right
+keybind = performable:super+shift+d=new_split:down
+keybind = performable:super+alt+arrow_left=goto_split:left
+keybind = performable:super+alt+arrow_right=goto_split:right
+keybind = performable:super+alt+arrow_up=goto_split:up
+keybind = performable:super+alt+arrow_down=goto_split:down
+
+# Explicit Kitty keyboard sequences shadow the normal bindings. `unbind`
+# would remove the table entry and fall through to the Ghostty shortcut.
+# Kitty modifiers: Cmd=9, Cmd+Shift=10, Cmd+Option=11 (including base 1).
+keybind = herdr/super+d=csi:100;9u
+keybind = herdr/super+shift+d=csi:100;10u
+keybind = herdr/super+alt+arrow_left=csi:1;11D
+keybind = herdr/super+alt+arrow_right=csi:1;11C
+keybind = herdr/super+alt+arrow_up=csi:1;11A
+keybind = herdr/super+alt+arrow_down=csi:1;11B
+
+quick-terminal-position = center
+quick-terminal-screen = mouse
+
+font-family = VictorMono Nerd Font
 font-size = 20
+font-style-italic = Oblique
+font-style-bold-italic = Semibold Oblique

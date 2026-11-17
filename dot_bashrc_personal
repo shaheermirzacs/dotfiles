@@ -1,0 +1,160 @@
+# Shared interactive Bash settings.
+case $- in *i*) ;; *) return ;; esac
+
+# Source everywhere
+if ! declare -F _init_completion >/dev/null 2>&1; then
+    if [[ -r /usr/share/bash-completion/bash_completion ]]; then
+        . /usr/share/bash-completion/bash_completion
+    elif [[ -r /etc/bash_completion ]]; then
+        . /etc/bash_completion
+    fi
+fi
+export CLICOLOR=1
+
+# =============================================================================
+# 1. Shell options & history
+# =============================================================================
+
+HISTSIZE=1000000
+HISTFILESIZE=2000000
+HISTCONTROL=ignoreboth
+
+shopt -s histappend
+shopt -s direxpand
+shopt -s globstar
+
+# For .inputrc CTRL+w to stop at hyphens
+[[ -t 0 ]] && stty werase undef
+bind '"\C-w": backward-kill-word'
+
+# =============================================================================
+# 2. Environment variables & PATH
+# =============================================================================
+
+export VISUAL=vim
+export EDITOR="$VISUAL"
+
+export DOCKER_BUILDKIT=1
+
+if [ -n "${REX_BLOCK:-}" ] || [ -z "${SSH_AUTH_SOCK:-}" ]; then
+    export SSH_AUTH_SOCK="$HOME/.ssh/rex-agent"
+fi
+
+[ -d "$HOME"/bin ] && export PATH="$HOME/bin:$PATH"
+[ -d "$HOME"/.local/bin ] && export PATH="$HOME/.local/bin:$PATH"
+[ -d "$HOME"/.cargo/bin ] && export PATH="$HOME/.cargo/bin:$PATH"
+[ -d "$HOME"/go/bin ] && export PATH="$HOME/go/bin:$PATH"
+
+# =============================================================================
+# 3. Functions
+# =============================================================================
+
+# cd && ls same time
+cd() { builtin cd "$@" && ls; }
+
+# Append and commit history after every command (helps with multiple TMUX panes)
+function blastoff() {
+    # Change terminal title to current hostname (works on SSH)
+    # printf '\033]0;%s\007' "${HOSTNAME%%.*}"
+
+    history -a
+    history -n
+}
+
+# =============================================================================
+# 4. Aliases
+# =============================================================================
+
+alias docker-group="groups | grep -q docker && echo 'already in docker group' || sudo usermod -aG docker $USER"
+alias install-claude="curl -fsSL https://claude.ai/install.sh | bash"
+alias codex="codex --no-daemon"
+
+# =============================================================================
+# 5. FZF configuration
+# =============================================================================
+
+command -v fzf >/dev/null 2>&1 && eval "$(fzf --bash)"
+export FZF_COMPLETION_TRIGGER=',,'
+export FZF_COMPLETION_PATH_OPTS='--walker file,dir,follow,hidden'
+export FZF_COMPLETION_DIR_OPTS='--walker dir,follow'
+export FZF_COMPLETION_OPTS="--border --style minimal"
+
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd|ls)        fzf --preview 'tree -C {} | head -200'   "$@" ;;
+    export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
+    ssh)          fzf --preview 'dig {}'                   "$@" ;;
+    *)            fzf --preview 'bat -n --color=always {}' --bind 'focus:transform-header:file --brief {}' --border "$@" ;;
+  esac
+}
+
+# Use fd (https://github.com/sharkdp/fd) for listing path candidates.
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
+
+# =============================================================================
+# 6. Tool initialization (starship, zoxide, jj)
+# =============================================================================
+
+# Starship prompt https://starship.rs/
+starship_precmd_user_func="blastoff"
+command -v starship >/dev/null 2>&1 && eval "$(starship init bash)"
+
+# Zoxide init
+command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init bash)"
+# Override zoxide cd to also ls
+function __zoxide_cd() {
+    # shellcheck disable=SC2164
+    builtin cd "$@"
+    RET=$?
+    ls
+    return $RET
+}
+
+# swift completion
+[[ -r ~/.local/share/bash-completion/completions/swift ]] && . ~/.local/share/bash-completion/completions/swift
+
+# Tool completions (use the installed version's definitions).
+command -v codex >/dev/null 2>&1 && source <(codex completion bash)
+command -v task >/dev/null 2>&1 && source <(task --completion bash)
+command -v uv >/dev/null 2>&1 && source <(uv generate-shell-completion bash)
+command -v uvx >/dev/null 2>&1 && source <(uvx --generate-shell-completion bash)
+command -v just >/dev/null 2>&1 && source <(just --completions bash)
+command -v glab >/dev/null 2>&1 && source <(glab completion -s bash)
+command -v bat >/dev/null 2>&1 && source <(bat --completion bash)
+command -v fd >/dev/null 2>&1 && source <(fd --gen-completions bash)
+# Older ripgrep releases ship completions separately.
+if command -v rg >/dev/null 2>&1; then
+    for rg_completion_file in \
+        "${XDG_DATA_HOME:-$HOME/.local/share}/bash-completion/completions/rg" \
+        "$HOME/bin/completions/rg.bash" \
+        /usr/local/share/bash-completion/completions/rg \
+        /usr/share/bash-completion/completions/rg; do
+        if [[ -r $rg_completion_file ]]; then
+            source "$rg_completion_file"
+            break
+        fi
+    done
+    if [[ ! -r $rg_completion_file && $(rg --help) == *--generate* ]]; then
+        source <(rg --generate complete-bash)
+    fi
+    unset rg_completion_file
+fi
+
+# jj completion
+command -v jj >/dev/null 2>&1 && source <(COMPLETE=bash jj)
+
+# Rex completion
+command -v rex >/dev/null 2>&1 && source <(rex completion bash)
+
+# 1Password CLI completion
+command -v op >/dev/null 2>&1 && source <(op completion bash)

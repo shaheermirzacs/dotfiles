@@ -1,0 +1,13 @@
+{
+  "servers": {
+    "basedpyright": {
+      "disabled": true
+    },
+    "ty": {
+      "disabled": false
+    },
+    "ruff": {
+      "disabled": false
+    }
+  }
+}

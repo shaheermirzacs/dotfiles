@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+# Package hash: {{ include "dot_local/share/private_nvim/language-servers/package.json" | sha256sum }}
+# Lockfile hash: {{ include "dot_local/share/private_nvim/language-servers/package-lock.json" | sha256sum }}
+npm ci --prefix {{ printf "%s/.local/share/nvim/language-servers" .chezmoi.homeDir | quote }}

@@ -1,22 +1,21 @@
-#!/usr/bin/env bash
+#!{{ if eq .chezmoi.os "darwin" }}/opt/homebrew/bin/bash{{ else }}/bin/bash{{ end }}
 
 # Source everywhere
 
-if [[ "$OSTYPE" == linux* ]]; then
-    export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
-else
-    export PATH="/opt/homebrew/bin:$PATH"
-fi
+{{- if eq .chezmoi.os "darwin" }}
+eval "$(/opt/homebrew/bin/brew shellenv)"
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 HOMEBREW_PREFIX="$(brew --prefix)"
 [[ -r "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" ]] && . "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
+{{- end }}
 export CLICOLOR=1
 
 # =============================================================================
 # 1. Shell options & history
 # =============================================================================
 
-HISTSIZE=-1
-HISTFILESIZE=-1
+HISTSIZE=1000000
+HISTFILESIZE=2000000
 HISTCONTROL=ignoreboth
 
 shopt -s histappend
@@ -24,7 +23,7 @@ shopt -s direxpand
 shopt -s globstar
 
 # For .inputrc CTRL+w to stop at hyphens
-stty werase undef
+[[ -t 0 ]] && stty werase undef
 bind '"\C-w": backward-kill-word'
 
 # =============================================================================
@@ -58,9 +57,17 @@ function blastoff() {
 }
 
 # =============================================================================
+# 4. Aliases
+# =============================================================================
+
+alias docker-group="groups | grep -q docker && echo 'already in docker group' || sudo usermod -aG docker $USER"
+alias install-claude="curl -fsSL https://claude.ai/install.sh | bash"
+alias codex="codex --no-daemon"
+
+# =============================================================================
 # 5. FZF configuration
 # =============================================================================
-# fzf key bindings and fuzzy completion
+
 eval "$(fzf --bash)"
 export FZF_COMPLETION_TRIGGER=',,'
 export FZF_COMPLETION_PATH_OPTS='--walker file,dir,follow,hidden'
@@ -75,7 +82,7 @@ _fzf_comprun() {
     cd|ls)        fzf --preview 'tree -C {} | head -200'   "$@" ;;
     export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
     ssh)          fzf --preview 'dig {}'                   "$@" ;;
-    *)            fzf --preview 'batcat -n --color=always {}' --bind 'focus:transform-header:file --brief {}' --border "$@" ;;
+    *)            fzf --preview 'bat -n --color=always {}' --bind 'focus:transform-header:file --brief {}' --border "$@" ;;
   esac
 }
 
@@ -90,7 +97,7 @@ _fzf_compgen_dir() {
 }
 
 # =============================================================================
-# 6. Tool initialization (starship, zoxide, uv, task)
+# 6. Tool initialization (starship, zoxide, jj)
 # =============================================================================
 
 # Starship prompt https://starship.rs/
@@ -107,34 +114,20 @@ function __zoxide_cd() {
     ls
     return $RET
 }
-# function __zoxide_z_complete() {
-#     # Only show completions when the cursor is at the end of the line.
-#     [[ ${#COMP_WORDS[@]} -eq $((COMP_CWORD + 1)) ]] || return
-#     # If there is only one argument, use `cd` completions.
-#     if [[ ${#COMP_WORDS[@]} -eq 2 ]]; then
-#         \builtin mapfile -t COMPREPLY < <(
-#             \builtin compgen -A directory -- "${COMP_WORDS[-1]}" || \builtin true
-#         )
-#     fi
-#     # If there is a space after the last word, use interactive selection.
-#     if [[ ${#COMPREPLY[@]} -eq 0 ]]; then
-#         if [[ ${COMP_WORDS[-2]} != "${__zoxide_z_prefix}"?* ]]; then
-#             \builtin local result query
-#             if [[ ${#COMP_WORDS[@]} -eq 2 ]]; then
-#                 query="${COMP_WORDS[-1]}"
-#             else
-#                 query="${COMP_WORDS[@]:1:${#COMP_WORDS[@]}-2}"
-#             fi
-#             # shellcheck disable=SC2312
-#             result="$(\command zoxide query --exclude "$(__zoxide_pwd)" --interactive -- "${query}")" &&
-#                 COMPREPLY=("${__zoxide_z_prefix}${result}/")
-#             \builtin printf '\e[5n'
-#         fi
-#     fi
-# }
 
-# =============================================================================
-# 7. Completions & local extensions
-# =============================================================================
+# swift completion
+[[ -r ~/.local/share/bash-completion/completions/swift ]] && . ~/.local/share/bash-completion/completions/swift
 
-source <(COMPLETE=bash jj)
+# jj completion
+command -v jj >/dev/null 2>&1 && source <(COMPLETE=bash jj)
+
+# Rex completion
+command -v rex >/dev/null 2>&1 && source <(rex completion bash)
+
+# 1Password CLI completion
+command -v op >/dev/null 2>&1 && source <(op completion bash)
+
+# Todoist CLI (td) completions via tabtab
+# tabtab source for packages
+# uninstall by removing these lines
+[ -f ~/.config/tabtab/bash/__tabtab.bash ] && . ~/.config/tabtab/bash/__tabtab.bash || true

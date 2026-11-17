@@ -1,0 +1,35 @@
+{{ if eq .chezmoi.os "linux" -}}
+{{ $arch := index (dict "amd64" "x86_64" "arm64" "aarch64") .chezmoi.arch -}}
+{{ if not $arch }}{{ fail "Linux tool downloads support amd64 and arm64 only" }}{{ end -}}
+# Latest stable releases checked 2026-10-28; bump the versioned URLs to upgrade.
+.local/bin/fzf:
+  type: archive-file
+  url: https://github.com/junegunn/fzf/releases/download/v0.74.5/fzf-0.74.5-linux_{{ .chezmoi.arch }}.tar.gz
+  path: fzf
+  executable: true
+.local/bin/fd:
+  type: archive-file
+  url: https://github.com/sharkdp/fd/releases/download/v10.5.0/fd-v10.5.0-{{ $arch }}-unknown-linux-musl.tar.gz
+  path: fd-v10.5.0-{{ $arch }}-unknown-linux-musl/fd
+  executable: true
+.local/bin/bat:
+  type: archive-file
+  url: https://github.com/sharkdp/bat/releases/download/v0.26.1/bat-v0.26.1-{{ $arch }}-unknown-linux-musl.tar.gz
+  path: bat-v0.26.1-{{ $arch }}-unknown-linux-musl/bat
+  executable: true
+.local/bin/starship:
+  type: archive-file
+  url: https://github.com/starship/starship/releases/download/v1.27.0/starship-{{ $arch }}-unknown-linux-musl.tar.gz
+  path: starship
+  executable: true
+.local/bin/zoxide:
+  type: archive-file
+  url: https://github.com/ajeetdsouza/zoxide/releases/download/v0.10.0/zoxide-0.10.0-{{ $arch }}-unknown-linux-musl.tar.gz
+  path: zoxide
+  executable: true
+.local/bin/glab:
+  type: archive-file
+  url: https://gitlab.com/gitlab-org/cli/-/releases/v1.126.0/downloads/glab_1.126.0_linux_{{ .chezmoi.arch }}.tar.gz
+  path: bin/glab
+  executable: true
+{{ end -}}

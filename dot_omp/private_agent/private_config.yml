@@ -1,0 +1,97 @@
+modelRoles:
+  default: openai-codex/gpt-6.1-sol:high
+  image: openai-codex/gpt-image-2
+  slow: openai-codex/gpt-6-astra:high
+  advisor: openai-codex/gpt-6-astra:high
+  plan: openai-codex/gpt-6-astra:medium
+  tiny: openai-codex/gpt-6-luna:low
+symbolPreset: ascii
+composer:
+  shape: local-codex
+  tokenRate: false
+theme:
+  dark: codex-muted
+setupVersion: 3
+disabledProviders:
+  - claude-md
+  - claude
+enabledProviders:
+  - codex
+  - claude-plugins
+statusLine:
+  compactThinkingLevel: false
+  transparent: true
+  preset: custom
+  separator: none
+  sessionAccent: true
+  leftSegments:
+    - model
+    - mode
+    - path
+    - git
+    - pr
+  rightSegments:
+    - context_pct
+  showHookStatus: false
+advisor:
+  enabled: true
+computer:
+  enabled: true
+display:
+  showTokenUsage: false
+  showTurnTime: false
+  cacheMissMarker: false
+  hideToolActivity: false
+task:
+  showResolvedModelBadge: true
+  enableEffort: true
+  enableLsp: true
+  maxEffort: high
+  isolation:
+    enabled: true
+readLineNumbers: false
+read:
+  toolResultPreview: true
+  renderMarkdown: true
+lsp:
+  diagnosticsOnEdit: true
+  formatOnWrite: true
+plan:
+  autosave: true
+tui:
+  codexResetFireworks: false
+  textSizing: false
+  tight: false
+  colorfulMarkdown: true
+  motion: full
+  reactions: false
+error:
+  notify: "off"
+astGrep:
+  enabled: true
+update:
+  auto: false
+hideThinkingBlock: false
+dev:
+  autoqaConsent: granted
+worktree:
+  clone: false
+todo:
+  enabled: false
+debug:
+  enabled: true
+github:
+  enabled: true
+checkpoint:
+  enabled: true
+providers:
+  openaiLiveSteering: true
+  openaiResponsesWebsockets: false
+eval:
+  py: true
+bashInterceptor:
+  enabled: true
+extensionRenderers:
+  transcriptPresenters: true
+startup:
+  quiet: true

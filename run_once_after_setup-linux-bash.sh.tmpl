@@ -1,0 +1,28 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/sh
+set -eu
+rc={{ printf "%s/.bashrc" .chezmoi.homeDir | quote }}
+tmp=$(mktemp "${rc}.XXXXXX")
+trap 'rm -f "$tmp"' EXIT HUP INT TERM
+line='[ -r "$HOME/.bashrc_personal" ] && . "$HOME/.bashrc_personal"'
+# Replace legacy source lines in place so later host-specific settings retain precedence.
+awk -v line="$line" '
+    $0 == line { if (!added++) print line; next }
+    !/^[[:space:]]*#/ && /bashrc-extensions\/(global|admin)/ && /(^|[;&|[:space:]])(source|\.)[[:space:]]/ {
+        if (!added++) print line
+        next
+    }
+    { print }
+    END { if (!added) print "\n" line }
+' "$rc" > "$tmp" 2>/dev/null || {
+    if [ -e "$rc" ]; then exit 1; fi
+    printf '%s\n' "$line" > "$tmp"
+}
+if ! cmp -s "$tmp" "$rc"; then
+    if [ -e "$rc" ]; then
+        backup=$(mktemp "${rc}.before-chezmoi.XXXXXX")
+        cp -p "$rc" "$backup"
+    fi
+    cat "$tmp" > "$rc"
+fi
+{{ end -}}

@@ -1,7 +1,22 @@
 README.md
-CLAUDE.md
 MIGRATION.md
 .editorconfig
 .gitattributes
 .gitignore
 LICENSE
+Session.vim
+.serena
+.serena/**
+ssh
+ssh/**
+{{ if eq .chezmoi.os "linux" }}
+.bashrc
+.bash_profile
+.ssh/config
+.config/ghostty
+.config/ghostty/**
+.config/1Password
+.config/1Password/**
+{{ else }}
+.bashrc_personal
+{{ end }}

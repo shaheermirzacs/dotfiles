@@ -7,6 +7,8 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "proxy": "",
+  "agent_buffer_font_size": 12.0,
   "semantic_tokens": "off",
   "code_lens": "off",
   "languages": {
@@ -62,6 +64,9 @@
     "trust_all_worktrees": true,
   },
   "terminal": {
+    "shell": {
+      "program": "/opt/homebrew/bin/bash"
+    },
     "font_size": 16.0,
     "font_family": "monospace",
   },
@@ -87,8 +92,8 @@
     "light": "Zed (Default)",
     "dark": "Zed (Default)",
   },
-  "ui_font_size": 12.0,
-  "buffer_font_size": 10.0,
+  "ui_font_size": 16.0,
+  "buffer_font_size": 14.0,
   "theme": {
     "mode": "system",
     "light": "One Light",

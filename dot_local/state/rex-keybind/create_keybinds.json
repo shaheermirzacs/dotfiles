@@ -1,0 +1,346 @@
+[
+  {
+    "id": "find-file",
+    "category": "Files",
+    "action": "Find/open a file",
+    "keys": "Ctrl+P or Space f f",
+    "context": "Normal; Ctrl+P also in Insert",
+    "notes": ""
+  },
+  {
+    "id": "search-project",
+    "category": "Files",
+    "action": "Search project text",
+    "keys": "Space f g or Space /",
+    "context": "Normal",
+    "notes": ""
+  },
+  {
+    "id": "choose-buffer",
+    "category": "Files",
+    "action": "Choose an open file/buffer",
+    "keys": "Space f b",
+    "context": "Normal",
+    "notes": ""
+  },
+  {
+    "id": "next-previous-buffer",
+    "category": "Files",
+    "action": "Next / previous open file",
+    "keys": "Shift+L / Shift+H",
+    "context": "Normal",
+    "notes": ""
+  },
+  {
+    "id": "edit-file",
+    "category": "Files",
+    "action": "Open/create a specific file",
+    "keys": ":edit path/to/file",
+    "context": "Command",
+    "notes": ""
+  },
+  {
+    "id": "open-explorer",
+    "category": "Explorer",
+    "action": "Open file explorer",
+    "keys": "Space e or Ctrl+B",
+    "context": "Normal",
+    "notes": ""
+  },
+  {
+    "id": "navigate-explorer",
+    "category": "Explorer",
+    "action": "Navigate explorer",
+    "keys": "j/k select; l open/enter; h parent",
+    "context": "Explorer",
+    "notes": ""
+  },
+  {
+    "id": "open-close-explorer",
+    "category": "Explorer",
+    "action": "Open file and close explorer",
+    "keys": "Shift+L",
+    "context": "Explorer",
+    "notes": ""
+  },
+  {
+    "id": "close-explorer",
+    "category": "Explorer",
+    "action": "Close explorer",
+    "keys": "q",
+    "context": "Explorer",
+    "notes": ""
+  },
+  {
+    "id": "search-explorer",
+    "category": "Explorer",
+    "action": "Search current listing",
+    "keys": "/filename then Enter; n/N next/prev",
+    "context": "Explorer",
+    "notes": ""
+  },
+  {
+    "id": "changed-files",
+    "category": "Git",
+    "action": "Browse changed files",
+    "keys": "Space f c",
+    "context": "Normal",
+    "notes": "Unstaged tracked changes only"
+  },
+  {
+    "id": "inline-diff",
+    "category": "Git",
+    "action": "Toggle inline Git diff",
+    "keys": "Space g d",
+    "context": "Normal",
+    "notes": ""
+  },
+  {
+    "id": "next-previous-change",
+    "category": "Git",
+    "action": "Next / previous change",
+    "keys": "]h / [h",
+    "context": "Normal",
+    "notes": ""
+  },
+  {
+    "id": "split-vertical",
+    "category": "Splits",
+    "action": "Split side by side",
+    "keys": "Space s v",
+    "context": "Normal",
+    "notes": ""
+  },
+  {
+    "id": "split-horizontal",
+    "category": "Splits",
+    "action": "Split top/bottom",
+    "keys": "Space s h",
+    "context": "Normal",
+    "notes": ""
+  },
+  {
+    "id": "move-split",
+    "category": "Splits",
+    "action": "Move between splits",
+    "keys": "Ctrl+W then h/j/k/l",
+    "context": "Normal",
+    "notes": ""
+  },
+  {
+    "id": "close-split",
+    "category": "Splits",
+    "action": "Close current split",
+    "keys": ":close",
+    "context": "Command",
+    "notes": ""
+  },
+  {
+    "id": "tabedit",
+    "category": "Tabs",
+    "action": "Open a file in a new tab",
+    "keys": ":tabedit path/to/file",
+    "context": "Command",
+    "notes": ""
+  },
+  {
+    "id": "tab-split",
+    "category": "Tabs",
+    "action": "Current buffer in a new tab",
+    "keys": ":tab split",
+    "context": "Command",
+    "notes": ""
+  },
+  {
+    "id": "tabnew",
+    "category": "Tabs",
+    "action": "New empty tab",
+    "keys": ":tabnew",
+    "context": "Command",
+    "notes": ""
+  },
+  {
+    "id": "next-previous-tab",
+    "category": "Tabs",
+    "action": "Next / previous tab",
+    "keys": "gt / gT",
+    "context": "Normal",
+    "notes": "Uppercase T goes back"
+  },
+  {
+    "id": "split-to-tab",
+    "category": "Tabs",
+    "action": "Move current split into a tab",
+    "keys": "Ctrl+W then Shift+T",
+    "context": "Normal",
+    "notes": "Requires another split"
+  },
+  {
+    "id": "definition",
+    "category": "Navigation",
+    "action": "Go to function/symbol definition",
+    "keys": "F12",
+    "context": "Normal",
+    "notes": "Requires an attached LSP"
+  },
+  {
+    "id": "jump-back-forward",
+    "category": "Navigation",
+    "action": "Jump back / forward",
+    "keys": "Ctrl+O / Ctrl+I",
+    "context": "Normal",
+    "notes": ""
+  },
+  {
+    "id": "copy-selection",
+    "category": "Clipboard",
+    "action": "Copy selected text",
+    "keys": "v or V then y; system: \"+y",
+    "context": "Normal then Visual",
+    "notes": "unnamedplus already uses the system clipboard"
+  },
+  {
+    "id": "copy-line",
+    "category": "Clipboard",
+    "action": "Copy current line",
+    "keys": "yy; system: \"+yy",
+    "context": "Normal",
+    "notes": "unnamedplus already uses the system clipboard"
+  },
+  {
+    "id": "scroll-half-page",
+    "category": "View",
+    "action": "Scroll half a page down / up",
+    "keys": "Ctrl+D / Ctrl+U",
+    "context": "Normal",
+    "notes": ""
+  },
+  {
+    "id": "scroll-line",
+    "category": "View",
+    "action": "Scroll view down / up one line",
+    "keys": "Ctrl+E / Ctrl+Y",
+    "context": "Normal",
+    "notes": ""
+  },
+  {
+    "id": "save",
+    "category": "Save",
+    "action": "Save",
+    "keys": "Ctrl+S or :w",
+    "context": "Normal / Insert / Visual; or Command",
+    "notes": ""
+  },
+  {
+    "id": "save-noautocmd",
+    "category": "Save",
+    "action": "Save without save autocommands",
+    "keys": ":noautocmd w",
+    "context": "Command",
+    "notes": ""
+  },
+  {
+    "id": "annotation-add",
+    "category": "Annotations",
+    "action": "Add annotation to line/selection",
+    "keys": "Space a c",
+    "context": "Normal / Visual",
+    "notes": ""
+  },
+  {
+    "id": "annotation-list",
+    "category": "Annotations",
+    "action": "List/manage pending annotations",
+    "keys": "Space a l",
+    "context": "Normal",
+    "notes": ""
+  },
+  {
+    "id": "annotation-paste",
+    "category": "Annotations",
+    "action": "Paste annotations into agent input",
+    "keys": "Space a s",
+    "context": "Normal",
+    "notes": ""
+  },
+  {
+    "id": "annotation-submit",
+    "category": "Annotations",
+    "action": "Paste and submit annotations",
+    "keys": "Space a S",
+    "context": "Normal",
+    "notes": "Uppercase S"
+  },
+  {
+    "id": "search-keymaps",
+    "category": "Reference",
+    "action": "Search all configured keybinds",
+    "keys": "Space ?",
+    "context": "Normal",
+    "notes": ""
+  },
+  {
+    "id": "floating-reference",
+    "category": "Reference",
+    "action": "Show remembered Neovim reference",
+    "keys": "Cmd+Shift+K",
+    "context": "Any Rex pane",
+    "notes": "Esc/q closes; n/p pages"
+  },
+  {
+    "id": "insert-line-start-end",
+    "category": "Navigation",
+    "action": "Beginning / end of line",
+    "keys": "Home / End; or Ctrl+O then 0 / $",
+    "context": "Insert",
+    "notes": "Ctrl+O runs one Normal-mode command and returns to Insert; 0 means column 1."
+  },
+  {
+    "id": "close-buffer",
+    "category": "Files",
+    "action": "Close buffer in current split",
+    "keys": "Space b d",
+    "context": "Normal",
+    "notes": "Runs WinBufClose; keeps the buffer open in other splits that track it."
+  },
+  {
+    "id": "join-lines",
+    "category": "Files",
+    "action": "Join lines",
+    "keys": "Shift+J",
+    "context": "Normal / Visual",
+    "notes": "Normal: joins current and next line; Visual: joins selected lines. Removes leading indentation and adds spacing."
+  },
+  {
+    "id": "omp-plan-preview",
+    "category": "View",
+    "action": "Show live agent plan",
+    "keys": "Cmd+Shift+O",
+    "context": "Rex; focus a Codex, OMP, or Claude Code agent pane",
+    "notes": "Opens or reuses a right-side read-only plan copy in your terminal VISUAL/EDITOR with its normal config/plugins; falls back to Neovim/vi. Keeps agent focus. Vim/Neovim automatically reload saved plan updates; other editors control reloads. Source plans are never edited. q closes Vim/Neovim. Close an old graphics pane before reopening. No Pandoc/Typst needed."
+  },
+  {
+    "id": "search-shortcuts",
+    "category": "Reference",
+    "action": "Search Neovim shortcuts",
+    "keys": "Space ?",
+    "context": "Normal mode",
+    "notes": "Press sequentially; Space alone shows hints after 300 ms"
+  },
+  {
+    "id": "equalize-splits",
+    "category": "Splits",
+    "action": "Equalize split sizes",
+    "keys": "Ctrl+W then =",
+    "context": "Normal",
+    "notes": "Balances split widths and heights; respects fixed-size windows"
+  },
+  {
+    "id": "highlight-cursor-line",
+    "category": "View",
+    "action": "Highlight the cursor line",
+    "keys": ":set cursorline",
+    "context": "Command",
+    "notes": ":set nocursorline disables; :set cursorline! toggles; highlight appearance depends on colorscheme"
+  }
+]

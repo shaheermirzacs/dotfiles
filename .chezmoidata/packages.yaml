@@ -1,0 +1,37 @@
+packages:
+  darwin:
+    brews:
+      - bash
+      - bash-completion@2
+      - bat
+      - shaheermirzacs/tap/omp
+      - chezmoi
+      - duckdb
+      - fd
+      - fzf
+      - gemini-cli
+      - gh
+      - git
+      - git-lfs
+      - glab
+      - go
+      - go-task
+      - googleworkspace-cli
+      - jj
+      - just
+      - just-lsp
+      - neovim
+      - node
+      - pandoc
+      - poppler
+      - ripgrep
+      - starship
+      - tmux
+      - tree
+      - uv
+      - zoxide
+    casks:
+      - 1password-cli
+      - font-victor-mono
+      - font-victor-mono-nerd-font
+      - codex

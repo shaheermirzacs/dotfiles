@@ -4,17 +4,18 @@
     "USE_BUILTIN_RIPGREP": "1",
     "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "ENABLE_CLAUDEAI_MCP_SERVERS": "false",
     "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": "1"
   },
   "permissions": {
     "allow": [
+      "Bash(glab issue view:*)",
+      "Bash(glab mr view:*)",
       "Bash(npm:*)",
       "Bash(yarn:*)",
-      "Bash(node:*)",
       "Bash(git:*)",
       "Bash(gh:*)",
       "Bash(docker:*)",
-      "Bash(python:*)",
       "Bash(pip:*)",
       "Bash(ls:*)",
       "Bash(rg:*)",
@@ -30,23 +31,23 @@
       "mcp__plugin_context-mode_context-mode__*"
     ],
     "deny": [
-      "Read(./.env*)",
       "Read(./secrets/**)",
       "Bash(rm -rf:*)",
-      "Bash(sudo:*)",
-      "Task(Explore)"
+      "Bash(sudo:*)"
     ],
     "ask": [],
     "defaultMode": "auto"
   },
+  "model": "opus",
   "hooks": {
-    "PreToolUse": [
+    "PreToolUse": [],
+    "SessionStart": [
       {
-        "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "rtk hook claude"
+            "command": "/bin/sh -c 'rex __internal session-start --agent claude --feature-session-naming=false 2>/dev/null || true'",
+            "timeout": 5
           }
         ]
       }
@@ -54,15 +55,17 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "~/.claude/scripts/statusline.sh"
+    "command": "python3 \"$HOME/.claude/scripts/context-monitor.py\""
   },
   "enabledPlugins": {
-    "context7@claude-plugins-official": true,
-    "serena@claude-plugins-official": true,
+    "context7@claude-plugins-official": false,
+    "serena@claude-plugins-official": false,
+    "context-mode@context-mode": false,
+    "astral@astral-sh": false,
     "superpowers@claude-plugins-official": false,
-    "astral@astral-sh": true,
-    "context-mode@context-mode": true,
-    "skill-creator@claude-plugins-official": true
+    "ast-grep@ast-grep-marketplace": false,
+    "ponytail@ponytail": true,
+    "egm@egm": true
   },
   "extraKnownMarketplaces": {
     "astral-sh": {
@@ -76,23 +79,52 @@
         "source": "github",
         "repo": "mksglu/context-mode"
       }
+    },
+    "openai-codex": {
+      "source": {
+        "source": "github",
+        "repo": "openai/codex-plugin-cc"
+      }
+    },
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
+      }
+    },
+    "egm": {
+      "source": {
+        "source": "github",
+        "repo": "google/elephant-goldfish-model"
+      }
     }
   },
-  "alwaysThinkingEnabled": true,
-  "effortLevel": "xhigh",
-  "voice": {
-    "enabled": true,
-    "mode": "hold"
+  "outputStyle": "Concise",
+  "alwaysThinkingEnabled": false,
+  "effortLevel": "high",
+  "modelSettings": {
+    "claude-opus-5-5": {
+      "effortLevel": "xhigh"
+    }
   },
+  "pluginConfigs": {
+    "cc-plugin-agents-md@builtin": {
+      "options": {
+        "instructionFiles": "claude-md-or-agents-md"
+      }
+    }
+  },
+  "tui": "fullscreen",
+  "autoMemoryEnabled": true,
+  "autoDreamEnabled": true,
   "skipDangerousModePermissionPrompt": true,
+  "autoCompactEnabled": false,
   "teammateMode": "tmux",
+  "remoteControlAtStartup": false,
+  "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
-  "voiceEnabled": true,
   "preferences": {
     "tmuxSplitPanes": true
-  },
-  "feedbackSurveyState": {
-    "lastShownTime": 1754063693195
   }
 }

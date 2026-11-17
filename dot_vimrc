@@ -1,5 +1,8 @@
 " Syntax highlighting
 syntax on
+autocmd FileType gitcommit setlocal colorcolumn=50,72
+
+
 
 " Trailing Whitespace Handling
 hi ExtraWhitespace ctermbg=red guibg=red
